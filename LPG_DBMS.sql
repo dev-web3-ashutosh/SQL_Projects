@@ -33,7 +33,32 @@ CREATE TABLE cancelled_orders (
     reason VARCHAR(50)
 );
 
+-- CREATE TABLE billing_details
+CREATE TABLE billing_details (
+	inv_id INT AUTO_INCREMENT PRIMARY KEY,
+	date DATE,
+	order_id INT,
+	FOREIGN KEY (order_id)
+		REFERENCES orders(id),
+	delivery_status VARCHAR(30)
+);
 
+-- CREATE TABLE cancelled_bills
+CREATE TABLE cancelled_bills(
+	inv_id INT,
+	FOREIGN KEY (inv_id)
+		REFERENCES orders(id),
+	date DATE,
+	reason VARCHAR(50)
+);
+
+-- CREATE TABLE pricing
+CREATE TABLE pricing (
+	type DECIMAL(3,1),
+	month VARCHAR(10),
+	year INT,
+	price INT
+);
 
 
 
