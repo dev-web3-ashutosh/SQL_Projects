@@ -160,7 +160,23 @@ insert into pricing values(14.2, 'January', 2022, 999);
 insert into pricing values(19.0, 'January', 2022, 1309);
 insert into pricing values(5.0, 'January', 2022, 359);
 
-
+/*
+3. Write a query to display a table with customer Id, Name, Connection_Type and No_Of
+Cylinders ordered from orders table.
+*/
+SELECT 
+    cd.id,
+    cd.name,
+    cd.connection_type,
+    SUM(o.quantity) AS 'No Of Cylinders'
+FROM
+    orders AS o
+        JOIN
+    cust_details AS cd ON o.cust_id = cd.id
+WHERE
+    status = 'Ordered'
+GROUP BY cust_id
+ORDER BY cust_id;
 
 
 
