@@ -178,5 +178,36 @@ WHERE
 GROUP BY cust_id
 ORDER BY cust_id;
 
+/*
+4. Display one customer from each product category who purchased the maximum number
+of cylinders with Connection_Type, Cust_Id, Name and Quantity purchased.
+*/
+SELECT 
+    cust_id, SUM(quantity) as quantity, connection_type,
+    rank() over(quantity) as rnk
+FROM
+    orders
+        JOIN
+    cust_details ON orders.cust_id = cust_details.id
+WHERE
+    status = 'ordered' and
+    rnk =1
+GROUP BY cust_id
+ORDER BY cust_id;
+
+select a.Cust_Id, a.Name, a.no_of_cylinders, a.Connection_Type 
+from (
+	select 
+		C.Id as Cust_Id, C.Name, P.no_of_cylinders, C.Connection_Type,
+		rank() over(partition by C.Connection_Type order by P.no_of_cylinders desc) as rnk
+	from 
+		Cust_Details as C 
+			inner join
+		(select Cust_Id, sum(Quantity) as no_of_cylinders 
+        from orders 
+        where status = 'ordered'
+		group by cust_Id) as P on P.Cust_Id = C.Id
+) a
+where a.rnk=1;
 
 
